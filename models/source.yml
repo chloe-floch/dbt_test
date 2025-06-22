@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: googles_analytics_4
+    schema: google_analytics_4
+    tables:
+      - name: events_20210131
+      
+  - name: google_sheets
+    schema: google_sheets
+    tables:
+      - name: account_manager_region_mapping
+
+  - name: dataset_fil_rouge
+    schema: dataset_fil_rouge
+    tables:
+      - name: account_manager_region_mapping
+      - name: feedback
+      - name: order
+      - name: order_item
+      - name: payment
+      - name: product
+      - name: seller
+      - name: user
