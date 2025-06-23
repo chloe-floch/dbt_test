@@ -25,9 +25,9 @@ jobs:
           echo "${{ secrets.GCP_KEY }}" > keyfile.json
 
       - name: Decode and write dbt profile
-        run: |
+        run: | 
           mkdir -p ~/.dbt
-          echo "$ secrets.DBT_PROFILE_B64" | base64 --decode  > ~/.dbt/profiles.yml
+          echo "$DBT_PROFILE_B64" | base64 --decode > ~/.dbt/profiles.yml
         env:
           DBT_PROFILE_B64: ${{ secrets.DBT_PROFILE_B64 }}
 
