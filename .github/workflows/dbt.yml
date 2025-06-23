@@ -21,18 +21,20 @@ jobs:
         run: pip install dbt-bigquery
 
       - name: Set up authentication
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GCP_KEY }}
         run: |
           echo "${{ secrets.GCP_KEY }}" > keyfile.json
-          export GOOGLE_APPLICATION_CREDENTIALS=keyfile.json
 
-      - name: Install dbt deps
+      - name: Run dbt deps
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/keyfile.json
         run: dbt deps
 
       - name: Run dbt models
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/keyfile.json
         run: dbt run
 
       - name: Run dbt tests
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/keyfile.json
         run: dbt test
-
