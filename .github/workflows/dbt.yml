@@ -27,7 +27,7 @@ jobs:
       - name: Write dbt profile
         run: |
           mkdir -p ~/.dbt
-          echo "$DBT_PROFILE" > ~/.dbt/profiles.yml
+          echo "${{ secrets.DBT_PROFILE }}" > ~/.dbt/profiles.yml
         env:
           DBT_PROFILE: ${{ secrets.DBT_PROFILE }}
 
