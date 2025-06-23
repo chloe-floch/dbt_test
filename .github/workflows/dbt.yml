@@ -24,6 +24,13 @@ jobs:
         run: |
           echo "${{ secrets.GCP_KEY }}" > keyfile.json
 
+      - name: Write dbt profile
+        run: |
+          mkdir -p ~/.dbt
+          echo "$DBT_PROFILE" > ~/.dbt/profiles.yml
+        env:
+          DBT_PROFILE: ${{ secrets.DBT_PROFILE }}
+
       - name: Run dbt deps
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/keyfile.json
