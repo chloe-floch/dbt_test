@@ -17,8 +17,8 @@ SELECT
    FROM UNNEST(event_params) AS ep
    WHERE ep.key = 'browser') AS browser,
 
-  traffic_source.medium,
-  traffic_source.source,
-  traffic_source.name
+  traffic_source.medium as medium,
+  traffic_source.source as source,
+  traffic_source.name as `name`
 
 FROM {{ source('google_analytics_4', 'events_20210131')}}
