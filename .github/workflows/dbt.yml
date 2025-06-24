@@ -2,7 +2,10 @@ name: Run dbt on push to main
 
 on:
   push:
-    branches: [main]
+    branches: 
+      - main
+      - feature/intermediate
+      - feature/staging
 
 jobs:
   dbt:
