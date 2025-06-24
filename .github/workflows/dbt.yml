@@ -1,4 +1,4 @@
-name: Run dbt on push to main
+name: Run dbt on push to main or feature branches
 
 on:
   push:
@@ -23,28 +23,31 @@ jobs:
       - name: Install dbt
         run: pip install dbt-bigquery
 
-      - name: Set up authentication
+      - name: Set up Google credentials
+        run: echo '${{ secrets.GCP_KEY }}' > keyfile.json
+
+      - name: Write dbt profile manually
         run: |
-          echo "${{ secrets.GCP_KEY }}" > keyfile.json
-
-      - name: Decode and write dbt profile
-        run: | 
           mkdir -p ~/.dbt
-          echo "$DBT_PROFILE_B64" | base64 --decode > ~/.dbt/profiles.yml
-        env:
-          DBT_PROFILE_B64: ${{ secrets.DBT_PROFILE_B64 }}
+          cat > ~/.dbt/profiles.yml <<EOF
+          dbt_test:
+            target: dev
+            outputs:
+              dev:
+                type: bigquery
+                method: service-account
+                project: databird-461009
+                dataset: dbt_chloe
+                keyfile: "${{ github.workspace }}/keyfile.json"
+                threads: 1
+                timeout_seconds: 300
+          EOF
 
-      - name: Run dbt deps
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/keyfile.json
+      - name: Install dbt dependencies
         run: dbt deps
 
       - name: Run dbt models
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/keyfile.json
         run: dbt run
 
       - name: Run dbt tests
-        env:
-          GOOGLE_APPLICATION_CREDENTIALS: ${{ github.workspace }}/keyfile.json
         run: dbt test
