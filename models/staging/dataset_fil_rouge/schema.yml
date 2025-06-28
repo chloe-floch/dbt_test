@@ -1,0 +1,10 @@
+version: 2
+
+models:
+  - name: stg_dataset_fil_rouge_order
+    description: This model contains informations about orders
+
+    columns:
+      - name: order_id
+        description: This is a unique identifier for the order
+    
