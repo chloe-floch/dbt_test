@@ -23,10 +23,13 @@ SELECT
   o.order_approved_at,
   oi.total_items,
   oi.total_distinct_items,
-  oi.total_order_amount,
-  f.avg_feedback_score
+  COALESCE(oi.total_order_amount, 0) as total_order_amount,
+  f.avg_feedback_score,
+  u.user_state
 FROM {{ ref('stg_dataset_fil_rouge_order') }} AS o  
 LEFT JOIN order_item_grouped_by_order AS oi 
   USING(order_id)
 LEFT JOIN feedback_grouped_by_order AS f
   USING(order_id)
+LEFT JOIN {{ ref('stg_dataset_fil_rouge_user') }} AS u 
+  USING(user_id)
