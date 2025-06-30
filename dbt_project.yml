@@ -37,7 +37,7 @@ models:
     intermediate:
       +materialized: view
     mart:
-      +materialized: view
+      +materialized: table
     
 
     

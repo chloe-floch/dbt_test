@@ -7,4 +7,7 @@ models:
     columns:
       - name: order_id
         description: This is a unique identifier for the order
+        tests: 
+          - unique
+          - not_null 
     
